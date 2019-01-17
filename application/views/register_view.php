@@ -60,7 +60,7 @@
                     <div class="col-lg-6">
                         <div class="acountsec">
                             <h3>Register</h3>
-                            <form>
+                            <form role="form" action="<?php echo base_url(); ?>/index.php/AuthController/registerUser" method="post">
                                 <div class="inputfield">
                                     <label>Name*</label>
                                     <input type="text" name="name"/>
@@ -82,7 +82,7 @@
                                     <input type="password" name="cpassword"/>
                                 </div>
                                 <button type="submit">register</button>
-                                <h5><a href="<?php echo base_url(); ?>/index.php/ItemListController/loginView" title="">OR LOGIN</a></h5>
+                                <h5><a href="<?php echo base_url(); ?>/index.php/AuthController/loginView" title="">OR LOGIN</a></h5>
                             </form>
                         </div>
                     </div>

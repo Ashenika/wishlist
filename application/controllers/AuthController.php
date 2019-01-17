@@ -45,7 +45,7 @@ class AuthController extends CI_Controller{
             $data['errmsg'] = 'Unable to login - please try again';
             $this->load->view('login_view',$data);
         } else {
-            $this->ci->auth_user->login($username,$password);
+            $this->auth_user->login($username,$password);
             $this->load->view('item_list_view');
         }
 
@@ -70,8 +70,8 @@ class AuthController extends CI_Controller{
             $password = $this->input->post('password');
 
             // insert values in database
-            $this->user->createUser($name,$username,$email,$password);
-            redirect('users/index');
+            $this->auth_user->createUser($name,$username,$email,$password);
+            redirect('AuthController/login');
         }
 
     }

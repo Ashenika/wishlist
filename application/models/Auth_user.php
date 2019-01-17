@@ -56,14 +56,25 @@ class Auth_user extends CI_Model {
 
     public function createUser($name,$username,$email,$password) {
         $data = array(
-            'name' => $this->_name,
-            'email' => $this->_email,
-            'user_name' => $this->_userName,
-            'password' => MD5($password),
-            'status' => $this->_status,
+            'name' => $name,
+            'email' => $email,
         );
         $this->db->insert('user', $data);
+
+        $auth = array(
+            'username' => $username,
+            'password' => $password,
+            'user_id'  => $this->db->insert_id()
+        );
+        $this->db->insert('auth_user',$auth);
+
         return $this->db->insert_id();
     }
-
+//$data = array(
+//'name' => $this->_name,
+//'email' => $this->_email,
+//'user_name' => $this->_userName,
+//'password' => MD5($password),
+//'status' => $this->_status,
+//);
 }
