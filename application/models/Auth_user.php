@@ -8,7 +8,7 @@
  * Time: 2:29 PM
  */
 
-class AuthUser extends CI_Model {
+class Auth_user extends CI_Model {
 
     function __construct()
     {
@@ -34,7 +34,7 @@ class AuthUser extends CI_Model {
 
     function login($username,$pwd)
     {
-        $this->db->where(array('username' => $username,'password' => $pwd));
+        $this->db->where(array('username' => $username,'password' => md5($pwd)));
         $res = $this->db->get('auth_user',array('user'));
 
         // $data = $res->result_array();
@@ -52,6 +52,18 @@ class AuthUser extends CI_Model {
 
         return $res->row_array();
 
+    }
+
+    public function createUser($name,$username,$email,$password) {
+        $data = array(
+            'name' => $this->_name,
+            'email' => $this->_email,
+            'user_name' => $this->_userName,
+            'password' => MD5($password),
+            'status' => $this->_status,
+        );
+        $this->db->insert('user', $data);
+        return $this->db->insert_id();
     }
 
 }
