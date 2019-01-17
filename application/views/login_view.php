@@ -50,14 +50,14 @@
                     <div class="col-lg-6">
                         <div class="acountsec">
                             <h3>Login</h3>
-                            <form>
+                            <form role="form" action="<?php echo base_url(); ?>/index.php/AuthController/authenticate" method="post">
                                 <div class="inputfield">
                                     <label>Username or email address *</label>
-                                    <input type="text" />
+                                    <input type="text" name="username" />
                                 </div>
                                 <div class="inputfield">
                                     <label>Password *</label>
-                                    <input type="password" />
+                                    <input type="password" name="password"/>
                                 </div>
                                 <p>
                                     <input class="styled-checkbox" id="1" value="value1" type="checkbox">

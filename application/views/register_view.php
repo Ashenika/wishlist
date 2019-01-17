@@ -62,16 +62,24 @@
                             <h3>Register</h3>
                             <form>
                                 <div class="inputfield">
-                                    <label>Username or email address *</label>
-                                    <input type="text" />
+                                    <label>Name*</label>
+                                    <input type="text" name="name"/>
+                                </div>
+                                <div class="inputfield">
+                                    <label>Email Address*</label>
+                                    <input type="text" name="email" />
+                                </div>
+                                <div class="inputfield">
+                                    <label>Username*</label>
+                                    <input type="text" name="username" />
                                 </div>
                                 <div class="inputfield">
                                     <label>Password *</label>
-                                    <input type="password" />
+                                    <input type="password" name="password" />
                                 </div>
                                 <div class="inputfield">
                                     <label>Confirm Password *</label>
-                                    <input type="password" />
+                                    <input type="password" name="cpassword"/>
                                 </div>
                                 <button type="submit">register</button>
                                 <h5><a href="<?php echo base_url(); ?>/index.php/ItemListController/loginView" title="">OR LOGIN</a></h5>
