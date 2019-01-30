@@ -17,24 +17,15 @@ class Auth_user extends CI_Model {
         $this->load->library('session');
     }
 
-//    function register($name,$username,$pwd)
-//    {
-//        // is username unique?
-//        $res = $this->db->get_where('users',array('username' => $username));
-//        if ($res->num_rows() > 0) {
-//            return 'Username already exists';
-//        }
-//        // username is unique
-//        $hashpwd = sha1($pwd);
-//        $data = array('name' => $name,'username' => $username,
-//            'password' => $hashpwd);
-//        $this->db->insert('users',$data);
-//        return null; // no error message because all is ok
-//    }
 
     function login($username,$pwd)
     {
-        $this->db->where(array('username' => $username,'password' => md5($pwd)));
+        if(!isset($_SESSION['logged'])){
+            $_SESSION['logged'] = session_id();
+            // print_r(session_id());
+        }
+
+        $this->db->where(array('username' => $username,'password' => $pwd));
         $res = $this->db->get('auth_user',array('user'));
 
         // $data = $res->result_array();
@@ -42,39 +33,52 @@ class Auth_user extends CI_Model {
             return false;
         }
 
-        $session_id = $this->session->userdata('session_id');
-
-        $this->session->set_userdata('logged', $res);
-
-        //return $session_id;
-        $session = $this->db->insert('logins',array('name' => $username, 'session_id' => session_id()));
-        // $this->db->insert('admin',array('logins_id'=>$session->id));
-
         return $res->row_array();
 
     }
 
-    public function createUser($name,$username,$email,$password) {
+    public function auth($username,$password){
+
+        $this->db->where(array('username' => $username,'password' => $password));
+        $query = $this->db->get('auth_user',array('user'));
+
+        if($query->num_rows()>0){
+            foreach ($query->result() as $row)
+            {
+                $data[] = $row;
+            }
+            return $query->result();
+        } else{
+            return "empty";
+        }
+    }
+
+    public function createUser($name,$username,$email,$password,$wish_name,$wish_desc) {
         $data = array(
             'name' => $name,
             'email' => $email,
+            'created_at'  => date("YmdHis")
         );
-        $this->db->insert('user', $data);
+        $user = $this->db->insert('user', $data);
 
         $auth = array(
             'username' => $username,
-            'password' => $password,
-            'user_id'  => $this->db->insert_id()
+            'password' => md5($password),
+            'user_id'  => $this->db->insert_id(),
+            'created_at'  => date("YmdHis")
         );
         $this->db->insert('auth_user',$auth);
 
+        $wishlistData = array(
+            'user_id' => $this->db->insert_id(),
+            'wishlist_name'    => $wish_name,
+            'description' => $wish_desc,
+            'created_at'  => date("YmdHis"),
+            'session_id' =>  session_id()
+        );
+        $this->db->insert('wishlist',$wishlistData);
+
         return $this->db->insert_id();
     }
-//$data = array(
-//'name' => $this->_name,
-//'email' => $this->_email,
-//'user_name' => $this->_userName,
-//'password' => MD5($password),
-//'status' => $this->_status,
-//);
+
 }
